@@ -53,6 +53,16 @@ class LinkedList:
         self.length += 1
 
         return True
+    
+    def pop_first(self):
+        if self.length == 0:
+            return None
+        curr_node = self.head
+        self.head = self.head.next
+        curr_node.next = None
+        self.length -= 1
+        if self.length == 0:
+            self.tail = None
 
     def pop_index(self, index):
 
@@ -60,18 +70,22 @@ class LinkedList:
         # 2. If Index is one
         if self.length == 0:
             return None
+        if index < 0 or index >= self.length:
+            return None
         count = 0
+        prev_node = None
         curr_node = self.head
         next_node = self.head.next
-        while count < self.length:
-            if count == index:
-                curr_node = next_node
-            else:
-
-
-
-
-
+        for _ in range(index):
+            prev_node = curr_node
+            curr_node = curr_node.next
+            next_node = curr_node.next
+        prev_node.next = next_node
+        curr_node.next = None
+        curr_node = None
+        self.length -= 1
+        if index == self.length:
+            self.tail = prev_node
 
     def print(self):
         curr_node = self.head
@@ -82,3 +96,17 @@ class LinkedList:
 if __name__ == '__main__':
     ll = LinkedList(3)
     ll.append(5)
+    ll.append(4)
+    ll.append(6)
+    ll.append(10)
+    ll.append(15)
+    ll.append(34)
+    ll.print()
+    ll.pop_first()
+    ll.print()
+    ll.pop_index(3)
+    ll.print()
+    ll.pop_index(4)
+    ll.print()
+    print(f"Length:{ll.length}")
+    ll.append(100)
